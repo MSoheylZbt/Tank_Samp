@@ -1,4 +1,5 @@
 Binaries
+*.uasset
 DerivedDataCache
 Intermediate
 Saved
