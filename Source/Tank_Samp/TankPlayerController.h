@@ -4,6 +4,7 @@
 
 #include "TAnk.h"
 #include "CoreMinimal.h"
+#include "Engine/World.h"
 #include "GameFramework/PlayerController.h"
 #include "TankPlayerController.generated.h"
 
@@ -16,7 +17,10 @@ class TANK_SAMP_API ATankPlayerController : public APlayerController
 	GENERATED_BODY()
 
 public:
-	ATAnk* GetControlledTank() const;
 	virtual void BeginPlay() override;
-	
+	virtual void Tick(float DeltaTime) override;
+
+	ATAnk* GetControlledTank() const;
+	void AimTowardsCrosshair();
+	bool GetSightRayLocation(FVector&);
 };
