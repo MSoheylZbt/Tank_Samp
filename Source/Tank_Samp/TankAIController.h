@@ -17,8 +17,8 @@ class TANK_SAMP_API ATankAIController : public AAIController
 	GENERATED_BODY()
 public:
 	virtual void BeginPlay() override;
-
-
-	AActor* GetAITank() const;
-	AActor* GetPlayerTank() const;
+	virtual void Tick(float DeltaTime) override;
+private:
+	ATAnk* GetAITank() const;
+	ATAnk* GetPlayerTank() const;
 };

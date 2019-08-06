@@ -2,6 +2,7 @@
 
 
 #include "TankAIController.h"
+
 void ATankAIController::BeginPlay()
 {
 	
@@ -25,17 +26,24 @@ void ATankAIController::BeginPlay()
 	}
 }
 
+void ATankAIController::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+	if (GetAITank())
+	{
+		GetAITank()->Aimtat(GetPlayerTank()->GetActorLocation());
+	}
+}
 
 
 
-
-AActor* ATankAIController::GetAITank() const
+ATAnk* ATankAIController::GetAITank() const
 {
 	return Cast<ATAnk>(GetPawn());
 }
 
-AActor* ATankAIController::GetPlayerTank() const
+ATAnk* ATankAIController::GetPlayerTank() const
 {
 	
-	return Cast <ATAnk>(GetWorld()->GetFirstPlayerController()->GetPawn());
+	return Cast<ATAnk>(GetWorld()->GetFirstPlayerController()->GetPawn());
 }

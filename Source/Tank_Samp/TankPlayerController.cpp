@@ -35,10 +35,10 @@ void ATankPlayerController::AimTowardsCrosshair()
 	FVector Hitlocation;
 	if (GetSightRayLocation(Hitlocation))
 	{
-		UE_LOG(LogTemp,Warning,TEXT("Hit Direction is : %s"),*Hitlocation.ToString())
+		GetControlledTank()->Aimtat(Hitlocation);
 	}
 }
-
+#pragma region GetSightRayLocation = Get the hited object.
 bool ATankPlayerController::GetSightRayLocation(FVector& OutHitResult)
 {
 	
@@ -59,6 +59,8 @@ bool ATankPlayerController::GetSightRayLocation(FVector& OutHitResult)
 
 	return true;
 }
+
+#pragma endregion
 
 bool ATankPlayerController::ConvertScreenPosToWorldDirection(FVector2D ScreenLocation, FVector& LookDirection) const
 {

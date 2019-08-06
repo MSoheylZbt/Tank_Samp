@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "TankAimingComponent.h"
 #include "GameFramework/Pawn.h"
 #include "TAnk.generated.h"
 
@@ -14,10 +15,14 @@ class TANK_SAMP_API ATAnk : public APawn
 public:
 	// Sets default values for this pawn's properties
 	ATAnk();
+	void Aimtat(FVector HitLocation);
+	UFUNCTION(BlueprintCallable, Category = Setup)
+	void BarrelSetter(UStaticMeshComponent *BarrelToSet);
 
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+	UTankAimingComponent* TankAimComponent = nullptr;
 
 public:	
 	// Called every frame
@@ -25,5 +30,4 @@ public:
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-
 };
