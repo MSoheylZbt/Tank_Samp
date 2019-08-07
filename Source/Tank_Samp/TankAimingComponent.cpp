@@ -2,6 +2,7 @@
 
 
 #include "TankAimingComponent.h"
+#include "BarrelComponent.h"
 
 // Sets default values for this component's properties
 UTankAimingComponent::UTankAimingComponent()
@@ -24,37 +25,25 @@ void UTankAimingComponent::AimAt(FVector HitLoc,float LaunchSpeed)
 		, ESuggestProjVelocityTraceOption::DoNotTrace);
 	if (bIsAiming)
 	{
-		auto LaunchVelocityUnit = OutLaunchVelocity.GetSafeNormal().ToString();
-		auto TankName = GetOwner()->GetName();
-		UE_LOG(LogTemp, Warning, TEXT("%s Barrel Should Target %s"), *TankName, *LaunchVelocityUnit)
-		//MoveBarrel
-			//take Unit vector
-			//rotate the barrel to taken vector position.
+		auto LaunchVelocityUnit = OutLaunchVelocity.GetSafeNormal();
+		//auto TankName = GetOwner()->GetName();
+		//UE_LOG(LogTemp, Warning, TEXT("%s Barrel Should Target %s"), *TankName, *LaunchVelocityUnit)
+		MoveBarrel(LaunchVelocityUnit);
 	}
 
 }
 #pragma endregion
 
-void UTankAimingComponent::BarrelSetter(UStaticMeshComponent* BarrelToSet)
+void UTankAimingComponent::BarrelSetter(UBarrelComponent* BarrelToSet)
 {
 	Barrel = BarrelToSet;
 }
 
-// Called when the game starts
-void UTankAimingComponent::BeginPlay()
+void UTankAimingComponent::MoveBarrel(FVector BarrelTargetLocation)
 {
-	Super::BeginPlay();
-
-	// ...
-	
-}
-
-
-// Called every frame
-void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
-{
-	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-
-	// ...
+	auto BarrelAimRotator = BarrelTargetLocation.Rotation();
+	auto BarrelCurrentRotation = Barrel->GetForwardVector().Rotation();
+	auto BarrelDelta = BarrelAimRotator - BarrelCurrentRotation;
+	Barrel->Elevate(5.0f);
 }
 

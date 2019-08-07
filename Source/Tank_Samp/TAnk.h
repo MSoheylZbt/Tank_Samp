@@ -7,6 +7,8 @@
 #include "GameFramework/Pawn.h"
 #include "TAnk.generated.h"
 
+class UBarrelComponent;
+
 UCLASS()
 class TANK_SAMP_API ATAnk : public APawn
 {
@@ -17,7 +19,7 @@ public:
 	ATAnk();
 	void Aimtat(FVector HitLocation);
 	UFUNCTION(BlueprintCallable, Category = Setup)
-	void BarrelSetter(UStaticMeshComponent* BarrelToSet);
+	void BarrelSetter(UBarrelComponent* BarrelToSet);
 
 protected:
 	// Called when the game starts or when spawned
