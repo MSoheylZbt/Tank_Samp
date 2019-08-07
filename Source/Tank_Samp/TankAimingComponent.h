@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
 #include "Components/StaticMeshComponent.h"
+#include "Kismet/GameplayStatics.h"
 #include "TankAimingComponent.generated.h"
 
 
@@ -16,7 +17,7 @@ class TANK_SAMP_API UTankAimingComponent : public UActorComponent
 public:	
 	// Sets default values for this component's properties
 	UTankAimingComponent();
-	void LogAim(FVector);
+	void AimAt(FVector,float);
 	void BarrelSetter(UStaticMeshComponent* BarrelToSet);
 
 protected:

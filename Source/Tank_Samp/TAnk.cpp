@@ -13,7 +13,7 @@ ATAnk::ATAnk()
 
 void ATAnk::Aimtat(FVector HitLocation)
 {
-	TankAimComponent->LogAim(HitLocation);
+	TankAimComponent->AimAt(HitLocation,LaunchSpeed);
 }
 
 void ATAnk::BarrelSetter(UStaticMeshComponent* BarrelToSet)

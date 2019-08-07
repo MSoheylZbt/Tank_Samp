@@ -13,13 +13,27 @@ UTankAimingComponent::UTankAimingComponent()
 	// ...
 }
 
-
-void UTankAimingComponent::LogAim(FVector HitLoc)
+#pragma region AimAt methode
+void UTankAimingComponent::AimAt(FVector HitLoc,float LaunchSpeed)
 {
-	auto TankName = GetOwner()->GetName();
-	auto BarrelLocation = Barrel->GetComponentLocation().ToString();
-	UE_LOG(LogTemp, Warning, TEXT("%s is aiming at %s from %s"), *TankName, *HitLoc.ToString(),*BarrelLocation)
+	//auto BarrelLocation = Barrel->GetComponentLocation().ToString();
+	if (!Barrel) { return; }
+	FVector OutLaunchVelocity;
+	FVector StartLocation = Barrel->GetSocketLocation(FName("Projectile"));
+	bool bIsAiming = UGameplayStatics::SuggestProjectileVelocity(this, OutLaunchVelocity, StartLocation, HitLoc, LaunchSpeed, false, 0.0f, 0.0f
+		, ESuggestProjVelocityTraceOption::DoNotTrace);
+	if (bIsAiming)
+	{
+		auto LaunchVelocityUnit = OutLaunchVelocity.GetSafeNormal().ToString();
+		auto TankName = GetOwner()->GetName();
+		UE_LOG(LogTemp, Warning, TEXT("%s Barrel Should Target %s"), *TankName, *LaunchVelocityUnit)
+		//MoveBarrel
+			//take Unit vector
+			//rotate the barrel to taken vector position.
+	}
+
 }
+#pragma endregion
 
 void UTankAimingComponent::BarrelSetter(UStaticMeshComponent* BarrelToSet)
 {
