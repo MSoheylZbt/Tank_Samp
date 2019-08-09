@@ -3,14 +3,17 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "TAnk.h"
-#include "AIController.h"
 #include "GameFramework/Actor.h"
+#include "AiController.h"
 #include "TankAIController.generated.h"
 
-/**
- * 
- */
+#pragma region ForwardDecelartion
+class ATAnk;
+#pragma endregion
+
+
+
+
 UCLASS()
 class TANK_SAMP_API ATankAIController : public AAIController
 {

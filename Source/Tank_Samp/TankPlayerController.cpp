@@ -1,7 +1,8 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-
 #include "TankPlayerController.h"
+#include"TAnk.h"
+
 
 
 void ATankPlayerController::BeginPlay()
@@ -77,26 +78,9 @@ bool ATankPlayerController::GetLookVectorHitLocation(FVector& HitLocation,FVecto
 	FVector LineTraceEnd = BeginLocation + (LookDirection * LineTraceRange);
 	if (GetWorld()->LineTraceSingleByChannel(Hit, BeginLocation, LineTraceEnd, ECollisionChannel::ECC_Visibility))
 	{
-		//WTF
 		HitLocation = Hit.Location;
 		return true;
 	}
 	HitLocation = FVector(0.0);
 	return false;
 }
-
-
-
-//FHitResult Hit;
-//FVector BeginLocation;
-//FRotator BeginRotation;
-//GetWorld()->GetFirstPlayerController()->GetPlayerViewPoint(BeginLocation, BeginRotation);
-
-//FVector LineTraceEnd = BeginLocation + (BeginRotation.Vector() * 10000);
-//FCollisionQueryParams QPar (FName(TEXT("")), false, GetOwner());
-
-//GetWorld()->LineTraceSingleByObjectType(
-//	Hit,
-//	BeginLocation
-//	, LineTraceEnd
-//	, FCollisionObjectQueryParams(ECollisionChannel::ECC_Pawn), QPar);

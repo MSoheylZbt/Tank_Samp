@@ -3,11 +3,16 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "TankAimingComponent.h"
 #include "GameFramework/Pawn.h"
 #include "TAnk.generated.h"
 
+#pragma region ForwardDecelartion
 class UBarrelComponent;
+class UTankAimingComponent;
+class UTurretComponent;
+#pragma endregion
+
+
 
 UCLASS()
 class TANK_SAMP_API ATAnk : public APawn
@@ -20,6 +25,8 @@ public:
 	void Aimtat(FVector HitLocation);
 	UFUNCTION(BlueprintCallable, Category = Setup)
 	void BarrelSetter(UBarrelComponent* BarrelToSet);
+	UFUNCTION(BlueprintCallable, Category = Setup)
+	void TurretSetter(UTurretComponent* TurretToSet);
 
 protected:
 	// Called when the game starts or when spawned
@@ -27,8 +34,6 @@ protected:
 	UTankAimingComponent* TankAimComponent = nullptr;
 
 public:	
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;

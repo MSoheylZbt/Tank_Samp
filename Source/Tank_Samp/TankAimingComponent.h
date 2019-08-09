@@ -8,7 +8,12 @@
 #include "Kismet/GameplayStatics.h"
 #include "TankAimingComponent.generated.h"
 
+#pragma region ForwardDecelartion
 class UBarrelComponent;
+class UTurretComponent;
+#pragma endregion
+
+
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class TANK_SAMP_API UTankAimingComponent : public UActorComponent
@@ -20,8 +25,11 @@ public:
 	UTankAimingComponent();
 	void AimAt(FVector,float);
 	void BarrelSetter(UBarrelComponent* BarrelToSet);
+	void TurretSetter(UTurretComponent* TurretToSet);
 
 private:
 	UBarrelComponent* Barrel = nullptr;
+	UTurretComponent* Turret = nullptr;
 	void MoveBarrel(FVector);
+	void MoveTurret(FVector);
 };
