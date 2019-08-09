@@ -29,44 +29,35 @@ void UTankAimingComponent::AimAt(FVector HitLoc,float LaunchSpeed)
 	if (bIsAiming)
 	{
 		auto LaunchVelocityUnit = OutLaunchVelocity.GetSafeNormal();
-		MoveBarrel(LaunchVelocityUnit);
-		MoveTurret(LaunchVelocityUnit);
-		UE_LOG(LogTemp,Warning,TEXT("%f : it's Aiming !"),Time)
+		MoveBarrelAndTurret(LaunchVelocityUnit);
+		//UE_LOG(LogTemp,Warning,TEXT("%f : it's Aiming !"),Time)
 	}
 	else
 	{
-		UE_LOG(LogTemp, Error, TEXT("%f : it's not Aiming !"), Time)
+		//UE_LOG(LogTemp, Error, TEXT("%f : it's not Aiming !"), Time)
 	}
 }
 #pragma endregion
 
 void UTankAimingComponent::BarrelSetter(UBarrelComponent* BarrelToSet)
 {
+	if (!BarrelToSet) { return; }
 	Barrel = BarrelToSet;
 }
 
 void UTankAimingComponent::TurretSetter(UTurretComponent* TurretToSet)
 {
+	if (!TurretToSet) { return; }
 	Turret = TurretToSet;
 }
 
-void UTankAimingComponent::MoveBarrel(FVector BarrelTargetLocation)
+void UTankAimingComponent::MoveBarrelAndTurret(FVector TargetLocation)
 {
-	auto BarrelAimRotator = BarrelTargetLocation.Rotation();
+	auto BarrelAimRotator = TargetLocation.Rotation();
 	auto BarrelCurrentRotation = Barrel->GetForwardVector().Rotation();
-	auto BarrelDelta = BarrelAimRotator - BarrelCurrentRotation;
-	Barrel->Elevate(BarrelDelta.Pitch);
+	auto Delta = BarrelAimRotator - BarrelCurrentRotation;
+	Barrel->Elevate(Delta.Pitch);
+	Turret->RotateTurret(Delta.Yaw);
 }
 
-void UTankAimingComponent::MoveTurret(FVector TurretTargetLocation)
-{
-	//get target rotation
-	auto TurretTargetRotation = TurretTargetLocation.Rotation();
-	//get current rotation
-	auto TurretCurrentRotetion = Turret->GetForwardVector().Rotation();
-	//calculate delta
-	auto TurretDelta = TurretTargetRotation - TurretCurrentRotetion;
-	//move towards delta
-	Turret->RotateTurret(TurretDelta.Yaw);
-}
 

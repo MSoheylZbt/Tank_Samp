@@ -30,6 +30,5 @@ public:
 private:
 	UBarrelComponent* Barrel = nullptr;
 	UTurretComponent* Turret = nullptr;
-	void MoveBarrel(FVector);
-	void MoveTurret(FVector);
+	void MoveBarrelAndTurret(FVector);
 };

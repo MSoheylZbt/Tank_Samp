@@ -23,10 +23,15 @@ public:
 	// Sets default values for this pawn's properties
 	ATAnk();
 	void Aimtat(FVector HitLocation);
+
 	UFUNCTION(BlueprintCallable, Category = Setup)
 	void BarrelSetter(UBarrelComponent* BarrelToSet);
+
 	UFUNCTION(BlueprintCallable, Category = Setup)
 	void TurretSetter(UTurretComponent* TurretToSet);
+
+	UFUNCTION(BlueprintCallable)
+	void Fire();
 
 protected:
 	// Called when the game starts or when spawned
@@ -40,5 +45,5 @@ public:
 
 private:
 	UPROPERTY(EditAnywhere, Category = Firing)
-	float LaunchSpeed = 30000;
+	float LaunchSpeed = 6000;
 };

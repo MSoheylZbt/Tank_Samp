@@ -27,6 +27,11 @@ void ATAnk::TurretSetter(UTurretComponent* TurretToSet)
 	TankAimComponent->TurretSetter(TurretToSet);
 }
 
+void ATAnk::Fire()
+{
+	UE_LOG(LogTemp,Error,TEXT("Fire Fire Fire !"))
+}
+
 // Called when the game starts or when spawned
 void ATAnk::BeginPlay()
 {

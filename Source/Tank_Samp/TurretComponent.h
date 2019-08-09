@@ -16,11 +16,7 @@ class TANK_SAMP_API UTurretComponent : public UStaticMeshComponent
 
 private:
 	UPROPERTY(EditAnywhere, Category = TurretSetup)
-	float MaxDegreePerSecond = 10.0f;
-	UPROPERTY(EditAnywhere, Category = TurretSetup)
-	float MaxRotation = 90.0f;
-	UPROPERTY(EditAnywhere, Category = TurretSetup)
-	float MinRotation = -90.0f;
+	float MaxDegreePerSecond = 25.0f;
 public:
 	void RotateTurret(float);
 };
