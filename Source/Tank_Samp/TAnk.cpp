@@ -2,6 +2,8 @@
 
 #include "TAnk.h"
 #include "TankAimingComponent.h"
+#include "BarrelComponent.h"
+#include "Projectile.h" //if doesn't included there will no error but Fire will not work !
 
 
 // Sets default values
@@ -20,6 +22,7 @@ void ATAnk::Aimtat(FVector HitLocation)
 void ATAnk::BarrelSetter(UBarrelComponent* BarrelToSet)
 {
 	TankAimComponent->BarrelSetter(BarrelToSet);
+	BarrelForProjectile = BarrelToSet;
 }
 
 void ATAnk::TurretSetter(UTurretComponent* TurretToSet)
@@ -27,9 +30,16 @@ void ATAnk::TurretSetter(UTurretComponent* TurretToSet)
 	TankAimComponent->TurretSetter(TurretToSet);
 }
 
+
 void ATAnk::Fire()
 {
-	UE_LOG(LogTemp,Error,TEXT("Fire Fire Fire !"))
+	UE_LOG(LogTemp, Error, TEXT("Fire Fire Fire !"))
+
+		auto Projecctile =  GetWorld()->SpawnActor<AProjectile>(ProjectileBlueprint, 
+			BarrelForProjectile->GetSocketLocation(FName("Projectile")),
+			BarrelForProjectile->GetSocketRotation(FName("Projectile"))
+			);
+	Projecctile->LaunchProjectile(LaunchSpeed);
 }
 
 // Called when the game starts or when spawned

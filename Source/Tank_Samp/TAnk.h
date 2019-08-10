@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Engine/World.h"
 #include "GameFramework/Pawn.h"
 #include "TAnk.generated.h"
 
@@ -10,6 +11,7 @@
 class UBarrelComponent;
 class UTankAimingComponent;
 class UTurretComponent;
+class AProjectile;
 #pragma endregion
 
 
@@ -25,20 +27,20 @@ public:
 	void Aimtat(FVector HitLocation);
 
 	UFUNCTION(BlueprintCallable, Category = Setup)
-	void BarrelSetter(UBarrelComponent* BarrelToSet);
+		void BarrelSetter(UBarrelComponent* BarrelToSet);
 
 	UFUNCTION(BlueprintCallable, Category = Setup)
-	void TurretSetter(UTurretComponent* TurretToSet);
+		void TurretSetter(UTurretComponent* TurretToSet);
 
 	UFUNCTION(BlueprintCallable)
-	void Fire();
+		void Fire();
 
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 	UTankAimingComponent* TankAimComponent = nullptr;
 
-public:	
+public:
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
@@ -46,4 +48,7 @@ public:
 private:
 	UPROPERTY(EditAnywhere, Category = Firing)
 	float LaunchSpeed = 6000;
+	UPROPERTY(EditAnywhere, Category = Firing)
+	TSubclassOf<AProjectile> ProjectileBlueprint;
+	UBarrelComponent* BarrelForProjectile;
 };
