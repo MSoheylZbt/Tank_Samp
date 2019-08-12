@@ -33,13 +33,16 @@ void ATAnk::TurretSetter(UTurretComponent* TurretToSet)
 
 void ATAnk::Fire()
 {
-	UE_LOG(LogTemp, Error, TEXT("Fire Fire Fire !"))
-
-		auto Projecctile =  GetWorld()->SpawnActor<AProjectile>(ProjectileBlueprint, 
+	bool bIsReloaded = (FPlatformTime::Seconds() - LastFireTime) > ReloadTime;
+	if (BarrelForProjectile && bIsReloaded)
+	{
+		auto Projecctile = GetWorld()->SpawnActor<AProjectile>(ProjectileBlueprint,
 			BarrelForProjectile->GetSocketLocation(FName("Projectile")),
 			BarrelForProjectile->GetSocketRotation(FName("Projectile"))
 			);
-	Projecctile->LaunchProjectile(LaunchSpeed);
+		Projecctile->LaunchProjectile(LaunchSpeed);
+		LastFireTime = FPlatformTime::Seconds();
+	}
 }
 
 // Called when the game starts or when spawned

@@ -11,6 +11,7 @@
 class UBarrelComponent;
 class UTankAimingComponent;
 class UTurretComponent;
+class UTankTrackComponent;
 class AProjectile;
 #pragma endregion
 
@@ -46,9 +47,13 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 private:
-	UPROPERTY(EditAnywhere, Category = Firing)
+	UPROPERTY(EditDefaultsOnly, Category = Firing)
 	float LaunchSpeed = 6000;
-	UPROPERTY(EditAnywhere, Category = Firing)
+	UPROPERTY(EditDefaultsOnly, Category = Firing)
 	TSubclassOf<AProjectile> ProjectileBlueprint;
 	UBarrelComponent* BarrelForProjectile;
+
+	float ReloadTime = 3;
+	double LastFireTime = 3;
+
 };

@@ -2,49 +2,23 @@
 
 #include "TankAIController.h"
 #include "TAnk.h"
+#include "GameFramework/Actor.h"
 
 
 void ATankAIController::BeginPlay()
 {
-	
 	Super::BeginPlay();
-	if (!GetAITank())
-	{
-		UE_LOG(LogTemp,Error, TEXT("GetAITank Doesn't Work !"))
-	}
-	else
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Ai Pawn name is : %s"), *GetAITank()->GetName())
-	}
+	AITank = Cast<ATAnk>(GetPawn());
+	PlayerTank = Cast<ATAnk>(GetWorld()->GetFirstPlayerController()->GetPawn());
 
-	if (!GetPlayerTank())
-	{
-		UE_LOG(LogTemp,Error,TEXT("GetPlayerTank Doesn't Work!"))
-	}
-	else
-	{
-		UE_LOG(LogTemp,Warning,TEXT("Player Tank name is : %s"),*GetPlayerTank()->GetName())
-	}
 }
 
 void ATankAIController::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	if (GetAITank())
+	if (AITank)
 	{
-		GetAITank()->Aimtat(GetPlayerTank()->GetActorLocation());
+		AITank->Aimtat(PlayerTank->GetActorLocation());
+		AITank->Fire();
 	}
-}
-
-
-
-ATAnk* ATankAIController::GetAITank() const
-{
-	return Cast<ATAnk>(GetPawn());
-}
-
-ATAnk* ATankAIController::GetPlayerTank() const
-{
-	
-	return Cast<ATAnk>(GetWorld()->GetFirstPlayerController()->GetPawn());
 }
