@@ -13,10 +13,10 @@ UCLASS(meta = (BlueprintSpawnableComponent))
 class TANK_SAMP_API UTankTrackComponent : public UStaticMeshComponent
 {
 	GENERATED_BODY()
-private:
+public:
 	UFUNCTION(BlueprintCallable , Category = Throttle)	
-	void ThrottleSetter(float Throttle);
-
+	void ThrottleMove(float Throttle);
+protected:
 	UPROPERTY(EditDefaultsOnly)
 	float MaxForce = 400000;
 	

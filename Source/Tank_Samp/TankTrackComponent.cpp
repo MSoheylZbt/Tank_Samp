@@ -4,10 +4,10 @@
 #include "TankTrackComponent.h"
 
 
-void UTankTrackComponent::ThrottleSetter(float Throttle)
+void UTankTrackComponent::ThrottleMove(float Throttle)
 {
-	auto Name = GetName();
-	UE_LOG(LogTemp, Warning, TEXT("%s Throttle is : %f"), *Name, Throttle)
+	//auto Name = GetName();
+	//UE_LOG(LogTemp, Warning, TEXT("%s Throttle is : %f"), *Name, Throttle)
 	auto ForceVector = GetForwardVector() * Throttle * MaxForce;
 	auto ForceLocation = GetComponentLocation();
 	auto TankRoot = Cast<UPrimitiveComponent>(GetOwner()->GetRootComponent());

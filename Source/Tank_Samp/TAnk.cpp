@@ -3,8 +3,8 @@
 #include "TAnk.h"
 #include "TankAimingComponent.h"
 #include "BarrelComponent.h"
+#include "TankMovementComponent.h"
 #include "Projectile.h" //if doesn't included there will no error but Fire will not work !
-
 
 // Sets default values
 ATAnk::ATAnk()

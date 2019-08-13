@@ -10,6 +10,7 @@
 #pragma region ForwardDecelartion
 class UBarrelComponent;
 class UTankAimingComponent;
+class UTankMovemnetComponent;
 class UTurretComponent;
 class UTankTrackComponent;
 class AProjectile;
@@ -40,7 +41,7 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 	UTankAimingComponent* TankAimComponent = nullptr;
-
+	UTankMovemnetComponent* TankMoveComponent = nullptr;
 public:
 
 	// Called to bind functionality to input
