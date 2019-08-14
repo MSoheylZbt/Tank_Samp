@@ -8,16 +8,16 @@ void UTankMovementComponent::MoveForward(float Throw)
 {
 	/*UE_LOG(LogTemp, Warning, TEXT("Throw is : %f"), Throw)*/
 	if (!LeftTrack || !RightTrack)	{ return; }
-	RightTrack->ThrottleMove(Throw);
 	LeftTrack->ThrottleMove(Throw);
+	RightTrack->ThrottleMove(Throw);
 }
 
 void UTankMovementComponent::RotateRight(float Throw)
 {
 	UE_LOG(LogTemp, Warning, TEXT("Throw is : %f"), Throw)
 	if (!LeftTrack || !RightTrack) { return; }
-	RightTrack->ThrottleMove(-Throw);
 	LeftTrack->ThrottleMove(Throw);
+	RightTrack->ThrottleMove(-Throw);
 }
 
 
@@ -25,4 +25,15 @@ void UTankMovementComponent::TrackSetter(UTankTrackComponent* RightTrackToSet, U
 {
 	LeftTrack = LeftTrackToSet;
 	RightTrack = RightTrackToSet;
+}
+
+void UTankMovementComponent::RequestDirectMove(const FVector& MoveVelocity, bool bForceMaxSpeed)
+{
+	auto WhereToGo = MoveVelocity.GetSafeNormal();
+	auto WhereItIs = GetOwner()->GetActorForwardVector().GetSafeNormal();
+	//UE_LOG(LogTemp, Warning, TEXT("%s Move Toward %s "), *GetOwner()->GetName(), *MoveVelocity.ToString())
+	auto DotProductProjection =  FVector::DotProduct(WhereToGo, WhereItIs);
+	MoveForward(DotProductProjection);
+	auto CrossProductVector = FVector::CrossProduct(WhereToGo , WhereItIs);
+	RotateRight(CrossProductVector.Z);
 }

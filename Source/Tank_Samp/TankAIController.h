@@ -21,8 +21,11 @@ class TANK_SAMP_API ATankAIController : public AAIController
 public:
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;
+
 private:
 	ATAnk* AITank;
 	ATAnk* PlayerTank;
+	UPROPERTY(EditAnywhere)
+	float AIandPlayerDistance = 3000;
 
 };

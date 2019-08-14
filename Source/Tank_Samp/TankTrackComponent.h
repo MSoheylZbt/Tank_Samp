@@ -18,6 +18,6 @@ public:
 	void ThrottleMove(float Throttle);
 protected:
 	UPROPERTY(EditDefaultsOnly)
-	float MaxForce = 400000;
+	float MaxForce = 60000000.0;
 	
 };

@@ -22,6 +22,7 @@ public:
 	void RotateRight(float Throw);
 	UFUNCTION(BlueprintCallable)
 	void TrackSetter(UTankTrackComponent* RightTrackToSet, UTankTrackComponent* LeftTrackToSet);
+	virtual void RequestDirectMove(const FVector& MoveVelocity, bool bForceMaxSpeed) override;
 private:
 	UTankTrackComponent* RightTrack;
 	UTankTrackComponent* LeftTrack;
