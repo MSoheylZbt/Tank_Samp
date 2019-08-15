@@ -20,6 +20,8 @@ public:
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;
 
+	UFUNCTION(BlueprintCallable, Category = "Setup") //it's Public because we call it in BP
+	ATAnk* GetControlledTank() const;
 private:
 	UPROPERTY(EditAnywhere)
 	float CrossHairXLocation = 0.5;
@@ -28,8 +30,6 @@ private:
 	UPROPERTY(EditDefaultsOnly)
 	float LineTraceRange = 1000000;
 
-
-	ATAnk* GetControlledTank() const;
 	void AimTowardsCrosshair();
 	bool GetSightRayLocation(FVector&);
 	bool ConvertScreenPosToWorldDirection(FVector2D, FVector&) const;

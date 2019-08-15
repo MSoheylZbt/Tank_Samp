@@ -8,12 +8,19 @@
 #include "Kismet/GameplayStatics.h"
 #include "TankAimingComponent.generated.h"
 
+UENUM()
+enum class EAimState : uint8
+{
+	Reloading,
+	Aiming,
+	Locked
+};
+
+
 #pragma region ForwardDecelartion
 class UBarrelComponent;
 class UTurretComponent;
 #pragma endregion
-
-
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class TANK_SAMP_API UTankAimingComponent : public UActorComponent
@@ -26,6 +33,9 @@ public:
 	void AimAt(FVector,float);
 	void BarrelSetter(UBarrelComponent* BarrelToSet);
 	void TurretSetter(UTurretComponent* TurretToSet);
+
+	UPROPERTY(BlueprintReadOnly)
+		EAimState CurrentState = EAimState::Aiming;
 
 private:
 	UBarrelComponent* Barrel = nullptr;
