@@ -19,7 +19,7 @@ UTankAimingComponent::UTankAimingComponent()
 void UTankAimingComponent::AimAt(FVector HitLoc,float LaunchSpeed)
 {
 	//auto BarrelLocation = Barrel->GetComponentLocation().ToString();
-	if (!Barrel) { return; }
+	if (!ensure(Barrel)) { return; }
 	FVector OutLaunchVelocity;
 	FVector StartLocation = Barrel->GetSocketLocation(FName("Projectile"));
 	bool bIsAiming = UGameplayStatics::SuggestProjectileVelocity(this, OutLaunchVelocity, StartLocation, HitLoc, LaunchSpeed
@@ -39,15 +39,10 @@ void UTankAimingComponent::AimAt(FVector HitLoc,float LaunchSpeed)
 }
 #pragma endregion
 
-void UTankAimingComponent::BarrelSetter(UBarrelComponent* BarrelToSet)
-{
-	if (!BarrelToSet) { return; }
-	Barrel = BarrelToSet;
-}
 
-void UTankAimingComponent::TurretSetter(UTurretComponent* TurretToSet)
+void UTankAimingComponent::BarrelAndTurretSetter(UBarrelComponent* BarrelToSet, UTurretComponent* TurretToSet)
 {
-	if (!TurretToSet) { return; }
+	Barrel = BarrelToSet;
 	Turret = TurretToSet;
 }
 

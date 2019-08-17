@@ -11,6 +11,7 @@
  * 
  */
 class ATAnk;
+class UTankAimingComponent;
 UCLASS()
 class TANK_SAMP_API ATankPlayerController : public APlayerController
 {
@@ -22,6 +23,10 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "Setup") //it's Public because we call it in BP
 	ATAnk* GetControlledTank() const;
+
+protected:
+	UFUNCTION(BlueprintImplementableEvent, Category = "Setup")
+	void FindAimingComponent(UTankAimingComponent* AimComp);
 private:
 	UPROPERTY(EditAnywhere)
 	float CrossHairXLocation = 0.5;
@@ -34,5 +39,6 @@ private:
 	bool GetSightRayLocation(FVector&);
 	bool ConvertScreenPosToWorldDirection(FVector2D, FVector&) const;
 	bool GetLookVectorHitLocation(FVector&,FVector) const ;
+
 
 };

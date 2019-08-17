@@ -10,7 +10,7 @@
 #pragma region ForwardDecelartion
 class UBarrelComponent;
 class UTankAimingComponent;
-class UTankMovemnetComponent;
+
 class UTurretComponent;
 class UTankTrackComponent;
 class AProjectile;
@@ -28,11 +28,7 @@ public:
 	ATAnk();
 	void Aimtat(FVector HitLocation);
 
-	UFUNCTION(BlueprintCallable, Category = Setup)
-		void BarrelSetter(UBarrelComponent* BarrelToSet);
 
-	UFUNCTION(BlueprintCallable, Category = Setup)
-		void TurretSetter(UTurretComponent* TurretToSet);
 
 	UFUNCTION(BlueprintCallable)
 		void Fire();
@@ -42,7 +38,7 @@ protected:
 	virtual void BeginPlay() override;
 	UPROPERTY(BlueprintReadOnly)
 	UTankAimingComponent* TankAimComponent = nullptr;
-	UTankMovemnetComponent* TankMoveComponent = nullptr;
+
 public:
 
 	// Called to bind functionality to input

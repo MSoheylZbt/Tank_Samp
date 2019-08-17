@@ -3,7 +3,6 @@
 #include "TAnk.h"
 #include "TankAimingComponent.h"
 #include "BarrelComponent.h"
-#include "TankMovementComponent.h"
 #include "Projectile.h" //if doesn't included there will no error but Fire will not work !
 
 // Sets default values
@@ -11,31 +10,25 @@ ATAnk::ATAnk()
 {
  	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = false;
-	TankAimComponent = CreateDefaultSubobject<UTankAimingComponent>(FName("Aim Component"));
+	UE_LOG(LogTemp, Error, TEXT("Fuck from Code Constructor"))
 }
 
 void ATAnk::Aimtat(FVector HitLocation)
 {
+	if (!ensure(TankAimComponent)) { return; }
 	TankAimComponent->AimAt(HitLocation,LaunchSpeed);
-}
-
-void ATAnk::BarrelSetter(UBarrelComponent* BarrelToSet)
-{
-	TankAimComponent->BarrelSetter(BarrelToSet);
-	BarrelForProjectile = BarrelToSet;
-}
-
-void ATAnk::TurretSetter(UTurretComponent* TurretToSet)
-{
-	TankAimComponent->TurretSetter(TurretToSet);
 }
 
 
 void ATAnk::Fire()
 {
+	if (!ensure(BarrelForProjectile)) { return; }
 	bool bIsReloaded = (FPlatformTime::Seconds() - LastFireTime) > ReloadTime;
-	if (BarrelForProjectile && bIsReloaded)
+	if (bIsReloaded)
 	{
+		//TODO Check Fire is work without below or not.
+		if (!ensure(TankAimComponent)) { return; }
+
 		auto Projecctile = GetWorld()->SpawnActor<AProjectile>(ProjectileBlueprint,
 			BarrelForProjectile->GetSocketLocation(FName("Projectile")),
 			BarrelForProjectile->GetSocketRotation(FName("Projectile"))
@@ -49,6 +42,7 @@ void ATAnk::Fire()
 void ATAnk::BeginPlay()
 {
 	Super::BeginPlay();
+	UE_LOG(LogTemp,Error,TEXT("Fuck from Code Begin Play"))
 }
 
 

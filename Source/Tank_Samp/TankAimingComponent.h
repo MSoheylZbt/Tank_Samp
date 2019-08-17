@@ -31,8 +31,9 @@ public:
 	// Sets default values for this component's properties
 	UTankAimingComponent();
 	void AimAt(FVector,float);
-	void BarrelSetter(UBarrelComponent* BarrelToSet);
-	void TurretSetter(UTurretComponent* TurretToSet);
+
+	UFUNCTION(BlueprintCallable , Category = "Setup")
+	void BarrelAndTurretSetter(UBarrelComponent* BarrelToSet, UTurretComponent* TurretToSet);
 
 	UPROPERTY(BlueprintReadOnly)
 		EAimState CurrentState = EAimState::Aiming;

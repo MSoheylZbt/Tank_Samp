@@ -11,6 +11,6 @@ void UTankTrackComponent::ThrottleMove(float Throttle)
 	auto ForceVector = GetForwardVector() * Throttle * MaxForce;
 	auto ForceLocation = GetComponentLocation();
 	auto TankRoot = Cast<UPrimitiveComponent>(GetOwner()->GetRootComponent());
-	if (!TankRoot) {return;}
+	if (!ensure(TankRoot)) {return;}
 	TankRoot->AddForceAtLocation(ForceVector, ForceLocation);
 }
