@@ -30,10 +30,13 @@ class TANK_SAMP_API UTankAimingComponent : public UActorComponent
 public:	
 	// Sets default values for this component's properties
 	UTankAimingComponent();
-	void AimAt(FVector,float);
+	void AimAt(FVector);
+	UPROPERTY(EditAnywhere,Category = "Setup")
+	float LaunchSpeed = 6000;
 
 	UFUNCTION(BlueprintCallable , Category = "Setup")
 	void BarrelAndTurretSetter(UBarrelComponent* BarrelToSet, UTurretComponent* TurretToSet);
+
 
 	UPROPERTY(BlueprintReadOnly)
 		EAimState CurrentState = EAimState::Aiming;

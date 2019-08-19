@@ -9,8 +9,6 @@
 
 #pragma region ForwardDecelartion
 class UBarrelComponent;
-class UTankAimingComponent;
-
 class UTurretComponent;
 class UTankTrackComponent;
 class AProjectile;
@@ -26,7 +24,6 @@ class TANK_SAMP_API ATAnk : public APawn
 public:
 	// Sets default values for this pawn's properties
 	ATAnk();
-	void Aimtat(FVector HitLocation);
 
 
 
@@ -36,8 +33,6 @@ public:
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
-	UPROPERTY(BlueprintReadOnly)
-	UTankAimingComponent* TankAimComponent = nullptr;
 
 public:
 

@@ -9,6 +9,7 @@
 
 #pragma region ForwardDecelartion
 class ATAnk;
+class UTankAimingComponent;
 #pragma endregion
 
 
@@ -27,5 +28,6 @@ private:
 	ATAnk* PlayerTank;
 	UPROPERTY(EditAnywhere)
 	float AIandPlayerDistance = 3000;
+	UTankAimingComponent* TankAim;
 
 };

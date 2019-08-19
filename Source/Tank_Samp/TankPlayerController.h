@@ -28,17 +28,25 @@ protected:
 	UFUNCTION(BlueprintImplementableEvent, Category = "Setup")
 	void FindAimingComponent(UTankAimingComponent* AimComp);
 private:
+
 	UPROPERTY(EditAnywhere)
 	float CrossHairXLocation = 0.5;
+
 	UPROPERTY(EditAnywhere)
 	float CrossHairYLocation = 0.3333;
+
 	UPROPERTY(EditDefaultsOnly)
 	float LineTraceRange = 1000000;
 
+
 	void AimTowardsCrosshair();
+
 	bool GetSightRayLocation(FVector&);
+
 	bool ConvertScreenPosToWorldDirection(FVector2D, FVector&) const;
+
 	bool GetLookVectorHitLocation(FVector&,FVector) const ;
 
+	UTankAimingComponent* TankAim;
 
 };

@@ -16,7 +16,7 @@ UTankAimingComponent::UTankAimingComponent()
 }
 
 #pragma region AimAt Method
-void UTankAimingComponent::AimAt(FVector HitLoc,float LaunchSpeed)
+void UTankAimingComponent::AimAt(FVector HitLoc)
 {
 	//auto BarrelLocation = Barrel->GetComponentLocation().ToString();
 	if (!ensure(Barrel)) { return; }

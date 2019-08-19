@@ -1,8 +1,8 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "TankPlayerController.h"
+#include "TAnk.h"
 #include "TankAimingComponent.h"
-#include"TAnk.h"
 
 
 
@@ -14,10 +14,7 @@ void ATankPlayerController::BeginPlay()
 	{
 		FindAimingComponent(AimComponent);
 	}
-	else
-	{
-		UE_LOG(LogTemp,Error,TEXT("Aim Component not Found !"))
-	}
+	TankAim = GetControlledTank()->FindComponentByClass<UTankAimingComponent>();
 }
 
 void ATankPlayerController::Tick(float DeltaTime)
@@ -39,8 +36,8 @@ void ATankPlayerController::AimTowardsCrosshair()
 	FVector Hitlocation;
 	if (GetSightRayLocation(Hitlocation))
 	{
-		if (!ensure(GetControlledTank())) { return; }
-		GetControlledTank()->Aimtat(Hitlocation);
+		if (!ensure(TankAim)) { return; }
+		TankAim->AimAt(Hitlocation);
 	}
 }
 #pragma region GetSightRayLocation = Get the hited object.

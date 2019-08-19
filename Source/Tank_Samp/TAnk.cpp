@@ -1,7 +1,6 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "TAnk.h"
-#include "TankAimingComponent.h"
 #include "BarrelComponent.h"
 #include "Projectile.h" //if doesn't included there will no error but Fire will not work !
 
@@ -10,14 +9,9 @@ ATAnk::ATAnk()
 {
  	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = false;
-	UE_LOG(LogTemp, Error, TEXT("Fuck from Code Constructor"))
+
 }
 
-void ATAnk::Aimtat(FVector HitLocation)
-{
-	if (!ensure(TankAimComponent)) { return; }
-	TankAimComponent->AimAt(HitLocation,LaunchSpeed);
-}
 
 
 void ATAnk::Fire()
@@ -27,7 +21,7 @@ void ATAnk::Fire()
 	if (bIsReloaded)
 	{
 		//TODO Check Fire is work without below or not.
-		if (!ensure(TankAimComponent)) { return; }
+		
 
 		auto Projecctile = GetWorld()->SpawnActor<AProjectile>(ProjectileBlueprint,
 			BarrelForProjectile->GetSocketLocation(FName("Projectile")),
@@ -42,7 +36,7 @@ void ATAnk::Fire()
 void ATAnk::BeginPlay()
 {
 	Super::BeginPlay();
-	UE_LOG(LogTemp,Error,TEXT("Fuck from Code Begin Play"))
+	BarrelForProjectile = FindComponentByClass<UBarrelComponent>();
 }
 
 
