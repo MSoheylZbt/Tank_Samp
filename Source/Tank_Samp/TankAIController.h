@@ -8,7 +8,6 @@
 #include "TankAIController.generated.h"
 
 #pragma region ForwardDecelartion
-class ATAnk;
 class UTankAimingComponent;
 #pragma endregion
 
@@ -24,8 +23,6 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 private:
-	ATAnk* AITank;
-	ATAnk* PlayerTank;
 	UPROPERTY(EditAnywhere)
 	float AIandPlayerDistance = 3000;
 	UTankAimingComponent* TankAim;

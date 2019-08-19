@@ -2,6 +2,8 @@
 
 
 #include "BarrelComponent.h"
+
+
 void UBarrelComponent::Elevate(float RelativeSpeed)
 {
 	/*UE_LOG(LogTemp,Warning,TEXT("Barrel Elevate ! Degree : %f"),Degree)*/

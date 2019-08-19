@@ -7,12 +7,7 @@
 #include "GameFramework/Pawn.h"
 #include "TAnk.generated.h"
 
-#pragma region ForwardDecelartion
-class UBarrelComponent;
-class UTurretComponent;
-class UTankTrackComponent;
-class AProjectile;
-#pragma endregion
+
 
 
 
@@ -26,10 +21,6 @@ public:
 	ATAnk();
 
 
-
-	UFUNCTION(BlueprintCallable)
-		void Fire();
-
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -40,13 +31,6 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 private:
-	UPROPERTY(EditDefaultsOnly, Category = Firing)
-	float LaunchSpeed = 6000;
-	UPROPERTY(EditDefaultsOnly, Category = Firing)
-	TSubclassOf<AProjectile> ProjectileBlueprint;
-	UBarrelComponent* BarrelForProjectile;
 
-	float ReloadTime = 3;
-	double LastFireTime = 3;
 
 };

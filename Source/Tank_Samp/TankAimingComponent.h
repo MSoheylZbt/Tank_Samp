@@ -19,6 +19,7 @@ enum class EAimState : uint8
 
 #pragma region ForwardDecelartion
 class UBarrelComponent;
+class AProjectile;
 class UTurretComponent;
 #pragma endregion
 
@@ -31,15 +32,27 @@ public:
 	// Sets default values for this component's properties
 	UTankAimingComponent();
 	void AimAt(FVector);
-	UPROPERTY(EditAnywhere,Category = "Setup")
-	float LaunchSpeed = 6000;
+
 
 	UFUNCTION(BlueprintCallable , Category = "Setup")
 	void BarrelAndTurretSetter(UBarrelComponent* BarrelToSet, UTurretComponent* TurretToSet);
 
 
 	UPROPERTY(BlueprintReadOnly)
-		EAimState CurrentState = EAimState::Aiming;
+	EAimState CurrentState = EAimState::Aiming;
+
+#pragma region FireProjectileNeed
+	UPROPERTY(EditAnywhere, Category = "Setup")
+	float LaunchSpeed = 6000;
+	UPROPERTY(EditDefaultsOnly, Category = "Firing")
+	TSubclassOf<AProjectile> ProjectileBlueprint;
+	float ReloadTime = 3;
+	double LastFireTime = 3;
+	UFUNCTION(BlueprintCallable,Category = "Setup" )
+	void Fire();
+#pragma endregion
+
+
 
 private:
 	UBarrelComponent* Barrel = nullptr;

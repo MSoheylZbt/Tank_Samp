@@ -10,7 +10,6 @@
 /**
  * 
  */
-class ATAnk;
 class UTankAimingComponent;
 UCLASS()
 class TANK_SAMP_API ATankPlayerController : public APlayerController
@@ -21,8 +20,6 @@ public:
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;
 
-	UFUNCTION(BlueprintCallable, Category = "Setup") //it's Public because we call it in BP
-	ATAnk* GetControlledTank() const;
 
 protected:
 	UFUNCTION(BlueprintImplementableEvent, Category = "Setup")

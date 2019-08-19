@@ -6,6 +6,7 @@
 #include "Components/StaticMeshComponent.h"
 #include "BarrelComponent.generated.h"
 
+
 /**
  * 
  */
@@ -18,10 +19,11 @@ public:
 	void Elevate(float);
 	
 private:
-	UPROPERTY(EditDefaultsOnly,Category = Setup)
+	UPROPERTY(EditDefaultsOnly,Category = "Setup")
 	float MaxElevationDegree = 30.0f;
-	UPROPERTY(EditDefaultsOnly, Category = Setup)
+	UPROPERTY(EditDefaultsOnly, Category = "Setup")
 	float MinElevationDegree = 0.0f;
-	UPROPERTY(EditDefaultsOnly, Category = Setup)
+	UPROPERTY(EditDefaultsOnly, Category = "Setup")
 	float MaxDegreePerSecond = 10.0f;
+
 };
