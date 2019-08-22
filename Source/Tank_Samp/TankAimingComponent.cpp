@@ -26,11 +26,11 @@ void UTankAimingComponent::AimAt(FVector HitLoc)
 	bool bIsAiming = UGameplayStatics::SuggestProjectileVelocity(this, OutLaunchVelocity, StartLocation, HitLoc, LaunchSpeed
 		, false,0,0,ESuggestProjVelocityTraceOption::DoNotTrace);
 
-	auto Time = GetWorld()->GetTimeSeconds();
+	/*auto Time = GetWorld()->GetTimeSeconds();*/
 	if (bIsAiming)
-	{
-		auto LaunchVelocityUnit = OutLaunchVelocity.GetSafeNormal();
-		MoveBarrelAndTurret(LaunchVelocityUnit);
+	{ 
+		AimDirection = OutLaunchVelocity.GetSafeNormal();
+		MoveBarrelAndTurret(AimDirection);
 		//UE_LOG(LogTemp,Warning,TEXT("%f : it's Aiming !"),Time)
 	}
 	else
@@ -59,14 +59,39 @@ void UTankAimingComponent::MoveBarrelAndTurret(FVector TargetLocation)
 void UTankAimingComponent::Fire()
 {
 	if (!ensure(Barrel)) { return; }
-	bool bIsReloaded = (FPlatformTime::Seconds() - LastFireTime) > ReloadTime;
-	if (bIsReloaded)
+	if (FireState != EAimState::Reloading)
 	{
 		auto Projecctile = GetWorld()->SpawnActor<AProjectile>(ProjectileBlueprint,
 			Barrel->GetSocketLocation(FName("Projectile")),
 			Barrel->GetSocketRotation(FName("Projectile"))
 			);
+		if (!ensure(Projecctile)) { return; }
 		Projecctile->LaunchProjectile(LaunchSpeed);
 		LastFireTime = FPlatformTime::Seconds();
 	}
+}
+void UTankAimingComponent::TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
+{
+	if ((FPlatformTime::Seconds() - LastFireTime) < ReloadTime)
+	{
+		FireState = EAimState::Reloading;
+	}
+	else if(IsBarrelMoving())
+	{
+		FireState = EAimState::Aiming;
+	}
+	else
+	{
+		FireState = EAimState::Locked;
+	}
+}
+
+void UTankAimingComponent::BeginPlay()
+{
+	LastFireTime = FPlatformTime::Seconds();
+}
+bool UTankAimingComponent::IsBarrelMoving()
+{
+	if (!ensure(Barrel)) { return false; }
+	return !(AimDirection.Equals(Barrel->GetForwardVector(), 0.01f));
 }

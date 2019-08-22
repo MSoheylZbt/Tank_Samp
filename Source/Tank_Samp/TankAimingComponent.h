@@ -39,7 +39,7 @@ public:
 
 
 	UPROPERTY(BlueprintReadOnly)
-	EAimState CurrentState = EAimState::Aiming;
+	EAimState FireState = EAimState::Reloading;
 
 #pragma region FireProjectileNeed
 	UPROPERTY(EditAnywhere, Category = "Setup")
@@ -47,7 +47,7 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category = "Firing")
 	TSubclassOf<AProjectile> ProjectileBlueprint;
 	float ReloadTime = 3;
-	double LastFireTime = 3;
+	double LastFireTime = 0;
 	UFUNCTION(BlueprintCallable,Category = "Setup" )
 	void Fire();
 #pragma endregion
@@ -57,5 +57,12 @@ public:
 private:
 	UBarrelComponent* Barrel = nullptr;
 	UTurretComponent* Turret = nullptr;
+	FVector AimDirection;
+
 	void MoveBarrelAndTurret(FVector);
+
+	bool IsBarrelMoving();
+
+	virtual void TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
+	void BeginPlay() override;
 };

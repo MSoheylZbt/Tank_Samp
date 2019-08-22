@@ -8,16 +8,16 @@ void UTankMovementComponent::MoveForward(float Throw)
 {
 	/*UE_LOG(LogTemp, Warning, TEXT("Throw is : %f"), Throw)*/
 	if (!ensure(LeftTrack || !RightTrack))	{ return; }
-	LeftTrack->ThrottleMove(Throw);
-	RightTrack->ThrottleMove(Throw);
+	LeftTrack->ThrottleSet(Throw);
+	RightTrack->ThrottleSet(Throw);
 }
 
 void UTankMovementComponent::RotateRight(float Throw)
 {
 	//UE_LOG(LogTemp, Warning, TEXT("Throw is : %f"), Throw)
 	if (!ensure(LeftTrack || !RightTrack)) { return; }
-	LeftTrack->ThrottleMove(Throw);
-	RightTrack->ThrottleMove(-Throw);
+	LeftTrack->ThrottleSet(Throw);
+	RightTrack->ThrottleSet(-Throw);
 }
 
 
