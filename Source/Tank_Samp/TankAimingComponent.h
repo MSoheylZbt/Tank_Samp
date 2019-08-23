@@ -13,7 +13,8 @@ enum class EAimState : uint8
 {
 	Reloading,
 	Aiming,
-	Locked
+	Locked ,
+	OutOfAmmo
 };
 
 
@@ -32,18 +33,16 @@ public:
 	// Sets default values for this component's properties
 	UTankAimingComponent();
 	void AimAt(FVector);
-
-
+	EAimState GetFireState();
 	UFUNCTION(BlueprintCallable , Category = "Setup")
 	void BarrelAndTurretSetter(UBarrelComponent* BarrelToSet, UTurretComponent* TurretToSet);
 
-
-	UPROPERTY(BlueprintReadOnly)
-	EAimState FireState = EAimState::Reloading;
+	UFUNCTION(BlueprintCallable, Category = "Setup")
+	int GetAmmo();
 
 #pragma region FireProjectileNeed
 	UPROPERTY(EditAnywhere, Category = "Setup")
-	float LaunchSpeed = 6000;
+	float LaunchSpeed = 8000;
 	UPROPERTY(EditDefaultsOnly, Category = "Firing")
 	TSubclassOf<AProjectile> ProjectileBlueprint;
 	float ReloadTime = 3;
@@ -51,7 +50,6 @@ public:
 	UFUNCTION(BlueprintCallable,Category = "Setup" )
 	void Fire();
 #pragma endregion
-
 
 
 private:
@@ -65,4 +63,8 @@ private:
 
 	virtual void TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 	void BeginPlay() override;
+	int Ammo = 3;
+protected:
+	UPROPERTY(BlueprintReadOnly)
+	EAimState FireState = EAimState::Reloading;
 };

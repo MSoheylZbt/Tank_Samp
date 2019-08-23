@@ -2,6 +2,7 @@
 
 #include "TankAIController.h"
 #include "TankAimingComponent.h"
+#include"Navigation/PathFollowingComponent.h"
 #include "GameFramework/Actor.h"
 
 
@@ -12,16 +13,23 @@ void ATankAIController::BeginPlay()
 
 void ATankAIController::Tick(float DeltaTime)
 {
-	TankAim = GetPawn()->FindComponentByClass<UTankAimingComponent>();
-	auto PlayerTank = GetWorld()->GetFirstPlayerController()->GetPawn();
 	Super::Tick(DeltaTime);
+	TankAim = GetPawn()->FindComponentByClass<UTankAimingComponent>();
+	auto PlayerTank = Cast<AActor>(GetWorld()->GetFirstPlayerController()->GetPawn());
 	if (PlayerTank)
 	{
-		MoveToActor(PlayerTank,AIandPlayerDistance);
+		auto Condition = MoveToActor(PlayerTank, AIAndPlayerDistance, true, true, true);
+		if (Condition == EPathFollowingRequestResult::AlreadyAtGoal)
+		{
+			
+			UE_LOG(LogTemp, Error, TEXT("%f : AlreadyAtGoal"), GetWorld()->GetTimeSeconds())
+		}
 		if (!ensure(TankAim)) { return; }
 		TankAim->AimAt(PlayerTank->GetActorLocation());
-		//TODO Read up TODO , and fix firing
-		TankAim->Fire();
+		if (TankAim->GetFireState() == EAimState::Locked)
+		{
+			TankAim->Fire();
+		}
 	}
 }
 

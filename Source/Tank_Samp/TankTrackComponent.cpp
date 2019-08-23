@@ -42,6 +42,7 @@ void UTankTrackComponent::AddSidewayForce()
 
 void UTankTrackComponent::TrackMove()
 {
+
 	auto ForceVector = GetForwardVector() * CurrentThrottle * MaxForce;
 	auto ForceLocation = GetComponentLocation();
 	auto TankRoot = Cast<UPrimitiveComponent>(GetOwner()->GetRootComponent());

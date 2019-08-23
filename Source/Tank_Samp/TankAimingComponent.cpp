@@ -16,6 +16,9 @@ UTankAimingComponent::UTankAimingComponent()
 	// ...
 }
 
+EAimState UTankAimingComponent::GetFireState(){ return FireState; }
+
+
 #pragma region AimAt Method
 void UTankAimingComponent::AimAt(FVector HitLoc)
 {
@@ -26,18 +29,13 @@ void UTankAimingComponent::AimAt(FVector HitLoc)
 	bool bIsAiming = UGameplayStatics::SuggestProjectileVelocity(this, OutLaunchVelocity, StartLocation, HitLoc, LaunchSpeed
 		, false,0,0,ESuggestProjVelocityTraceOption::DoNotTrace);
 
-	/*auto Time = GetWorld()->GetTimeSeconds();*/
 	if (bIsAiming)
 	{ 
 		AimDirection = OutLaunchVelocity.GetSafeNormal();
-		MoveBarrelAndTurret(AimDirection);
-		//UE_LOG(LogTemp,Warning,TEXT("%f : it's Aiming !"),Time)
-	}
-	else
-	{
-		//UE_LOG(LogTemp, Error, TEXT("%f : it's not Aiming !"), Time)
+		MoveBarrelAndTurret(AimDirection);	
 	}
 }
+
 #pragma endregion
 
 
@@ -47,19 +45,28 @@ void UTankAimingComponent::BarrelAndTurretSetter(UBarrelComponent* BarrelToSet, 
 	Turret = TurretToSet;
 }
 
+int UTankAimingComponent::GetAmmo() { return Ammo; }
+
 void UTankAimingComponent::MoveBarrelAndTurret(FVector TargetLocation)
 {
 	auto BarrelAimRotator = TargetLocation.Rotation();
 	auto BarrelCurrentRotation = Barrel->GetForwardVector().Rotation();
 	auto Delta = BarrelAimRotator - BarrelCurrentRotation;
 	Barrel->Elevate(Delta.Pitch);
-	Turret->RotateTurret(Delta.Yaw);
+	if (FMath::Abs(Delta.Yaw) > 180)
+	{
+		Turret->RotateTurret(-Delta.Yaw);
+	}
+	else
+	{
+		Turret->RotateTurret(Delta.Yaw);
+	}
 }
 
 void UTankAimingComponent::Fire()
 {
 	if (!ensure(Barrel)) { return; }
-	if (FireState != EAimState::Reloading)
+	if (FireState == EAimState::Locked || FireState == EAimState::Aiming)
 	{
 		auto Projecctile = GetWorld()->SpawnActor<AProjectile>(ProjectileBlueprint,
 			Barrel->GetSocketLocation(FName("Projectile")),
@@ -68,11 +75,16 @@ void UTankAimingComponent::Fire()
 		if (!ensure(Projecctile)) { return; }
 		Projecctile->LaunchProjectile(LaunchSpeed);
 		LastFireTime = FPlatformTime::Seconds();
+		Ammo--;
 	}
 }
 void UTankAimingComponent::TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
-	if ((FPlatformTime::Seconds() - LastFireTime) < ReloadTime)
+	if(Ammo == 0)
+	{
+		FireState = EAimState::OutOfAmmo;
+	}
+	else if ((FPlatformTime::Seconds() - LastFireTime) < ReloadTime)
 	{
 		FireState = EAimState::Reloading;
 	}

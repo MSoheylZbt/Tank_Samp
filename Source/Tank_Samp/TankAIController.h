@@ -24,7 +24,7 @@ public:
 
 private:
 	UPROPERTY(EditAnywhere)
-	float AIandPlayerDistance = 3000;
+	float AIAndPlayerDistance = 1.0;
 	UTankAimingComponent* TankAim;
 
 };

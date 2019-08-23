@@ -51,10 +51,10 @@ bool ATankPlayerController::GetSightRayLocation(FVector& OutHitResult)
 	FVector LookDir;
 	if (ConvertScreenPosToWorldDirection(ScreenLocation, LookDir))
 	{
-		GetLookVectorHitLocation(OutHitResult, LookDir);
+		return GetLookVectorHitLocation(OutHitResult, LookDir);
 	}
 
-	return true;
+	return false;
 }
 
 #pragma endregion
