@@ -31,39 +31,49 @@ class TANK_SAMP_API UTankAimingComponent : public UActorComponent
 
 public:	
 	// Sets default values for this component's properties
-	UTankAimingComponent();
+	
+
 	void AimAt(FVector);
+
 	EAimState GetFireState();
+
 	UFUNCTION(BlueprintCallable , Category = "Setup")
 	void BarrelAndTurretSetter(UBarrelComponent* BarrelToSet, UTurretComponent* TurretToSet);
 
 	UFUNCTION(BlueprintCallable, Category = "Setup")
 	int GetAmmo();
 
-#pragma region FireProjectileNeed
-	UPROPERTY(EditAnywhere, Category = "Setup")
+#pragma region Fire Projectile Needed
+	UPROPERTY(EditAnywhere, Category = "Firing")
 	float LaunchSpeed = 8000;
+
 	UPROPERTY(EditDefaultsOnly, Category = "Firing")
 	TSubclassOf<AProjectile> ProjectileBlueprint;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Firing")
 	float ReloadTime = 3;
-	double LastFireTime = 0;
-	UFUNCTION(BlueprintCallable,Category = "Setup" )
+
+	UPROPERTY(EditDefaultsOnly, Category = "Firing")
+	int Ammo = 3;
+
+	UFUNCTION(BlueprintCallable,Category = "Firing" )
 	void Fire();
+
+	double LastFireTime = 0;
 #pragma endregion
 
 
 private:
+	UTankAimingComponent();
+	void MoveBarrelAndTurret(FVector);
+	bool IsBarrelMoving();
+
 	UBarrelComponent* Barrel = nullptr;
 	UTurretComponent* Turret = nullptr;
 	FVector AimDirection;
 
-	void MoveBarrelAndTurret(FVector);
-
-	bool IsBarrelMoving();
-
 	virtual void TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 	void BeginPlay() override;
-	int Ammo = 3;
 protected:
 	UPROPERTY(BlueprintReadOnly)
 	EAimState FireState = EAimState::Reloading;

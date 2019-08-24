@@ -19,18 +19,13 @@ class TANK_SAMP_API ATAnk : public APawn
 public:
 	// Sets default values for this pawn's properties
 	ATAnk();
-
-
-protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
-
-public:
-
-	// Called to bind functionality to input
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-
+	// Call Automaticly by engine when damage applied to Tank
+	float TakeDamage(float Damage, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser) override;
+	
 private:
-
-
+	UPROPERTY(EditAnywhere,Category = "Health stuff")
+	int32 Health = 100;
+	UPROPERTY(VisibleAnywhere, Category = "Health stuff")
+	int32 CurrentHealth = Health;
+	virtual void BeginPlay() override;
 };

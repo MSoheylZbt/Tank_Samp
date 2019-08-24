@@ -7,6 +7,8 @@
 #include "Projectile.generated.h"
 
 class UProjectileMovementComponent;
+class UParticleSystemComponent;
+class URadialForceComponent;
 
 UCLASS()
 class TANK_SAMP_API AProjectile : public AActor
@@ -18,10 +20,27 @@ protected:
 
 
 public:	
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
 	AProjectile();
 	void LaunchProjectile(float);
 private:
 	UProjectileMovementComponent* ProjectileMovement = nullptr;
+	UPROPERTY(VisibleAnywhere,Category = "Components")
+	UStaticMeshComponent* CollisionMesh = nullptr;
+	UPROPERTY(VisibleAnywhere, Category = "Components")
+	UParticleSystemComponent* FireBlast = nullptr;
+	UPROPERTY(VisibleAnywhere, Category = "Components")
+	UParticleSystemComponent* HitBlast = nullptr;
+	UPROPERTY(VisibleAnywhere, Category = "Components")
+	URadialForceComponent* HitForce = nullptr;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Setup")
+	float DestroyDelay = 100.0;
+	UPROPERTY(EditDefaultsOnly, Category = "Setup")
+		float HitDamage = 10;
+
+	UFUNCTION()
+	void OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse,
+			const FHitResult& Hit);
+
+	void DestroyProjectileDelegate();
 };

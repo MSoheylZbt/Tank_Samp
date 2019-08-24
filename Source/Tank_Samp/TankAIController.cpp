@@ -19,11 +19,6 @@ void ATankAIController::Tick(float DeltaTime)
 	if (PlayerTank)
 	{
 		auto Condition = MoveToActor(PlayerTank, AIAndPlayerDistance, true, true, true);
-		if (Condition == EPathFollowingRequestResult::AlreadyAtGoal)
-		{
-			
-			UE_LOG(LogTemp, Error, TEXT("%f : AlreadyAtGoal"), GetWorld()->GetTimeSeconds())
-		}
 		if (!ensure(TankAim)) { return; }
 		TankAim->AimAt(PlayerTank->GetActorLocation());
 		if (TankAim->GetFireState() == EAimState::Locked)
