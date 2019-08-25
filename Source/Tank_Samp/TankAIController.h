@@ -18,13 +18,14 @@ UCLASS()
 class TANK_SAMP_API ATankAIController : public AAIController
 {
 	GENERATED_BODY()
-public:
-	virtual void BeginPlay() override;
-	virtual void Tick(float DeltaTime) override;
-
 private:
 	UPROPERTY(EditAnywhere)
 	float AIAndPlayerDistance = 1.0;
 	UTankAimingComponent* TankAim;
+	virtual void BeginPlay() override;
+	virtual void Tick(float DeltaTime) override;
 
+	virtual void SetPawn(APawn* InPawn) override;
+	UFUNCTION()
+	void OnTankDeath();
 };

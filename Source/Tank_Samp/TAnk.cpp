@@ -2,6 +2,8 @@
 
 #include "TAnk.h"
 
+
+
 // Sets default values
 ATAnk::ATAnk()
 {
@@ -16,9 +18,13 @@ float ATAnk::TakeDamage(float Damage, FDamageEvent const& DamageEvent, AControll
 	CurrentHealth -= DamageToApply;
 	if (CurrentHealth <= 0)
 	{
-		UE_LOG(LogTemp, Warning, TEXT(" %s is Dead "), *GetName())
+		OnDeath.Broadcast();
 	}
 	return DamageToApply;
+}
+float ATAnk::GetCurrentHealthPercent()
+{
+	return (float)CurrentHealth / (float)Health; // Health = 100 for Percent !
 }
 // Called when the game starts or when spawned
 void ATAnk::BeginPlay()

@@ -2,7 +2,8 @@
 
 #include "TankAIController.h"
 #include "TankAimingComponent.h"
-#include"Navigation/PathFollowingComponent.h"
+#include "Navigation/PathFollowingComponent.h"
+#include "TAnk.h"
 #include "GameFramework/Actor.h"
 
 
@@ -26,5 +27,22 @@ void ATankAIController::Tick(float DeltaTime)
 			TankAim->Fire();
 		}
 	}
+}
+
+void ATankAIController::SetPawn(APawn* InPawn)
+{
+	Super::SetPawn(InPawn);
+	if (InPawn)
+	{
+		auto PossesedTank = Cast<ATAnk>(InPawn);
+		if (!ensure(PossesedTank)) { return; }
+		PossesedTank->OnDeath.AddUniqueDynamic(this, &ATankAIController::OnTankDeath);
+	}
+
+}
+
+void ATankAIController::OnTankDeath()
+{
+	UE_LOG(LogTemp,Warning,TEXT("%s is Dead !"),*GetName())
 }
 

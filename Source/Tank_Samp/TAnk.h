@@ -9,7 +9,7 @@
 
 
 
-
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FTankDelegate);
 
 UCLASS()
 class TANK_SAMP_API ATAnk : public APawn
@@ -17,10 +17,11 @@ class TANK_SAMP_API ATAnk : public APawn
 	GENERATED_BODY()
 
 public:
-	// Sets default values for this pawn's properties
-	ATAnk();
 	// Call Automaticly by engine when damage applied to Tank
 	float TakeDamage(float Damage, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser) override;
+	UFUNCTION(BlueprintPure, Category = "Health stuff")
+	float GetCurrentHealthPercent();
+	FTankDelegate OnDeath;
 	
 private:
 	UPROPERTY(EditAnywhere,Category = "Health stuff")
@@ -28,4 +29,6 @@ private:
 	UPROPERTY(VisibleAnywhere, Category = "Health stuff")
 	int32 CurrentHealth = Health;
 	virtual void BeginPlay() override;
+	ATAnk();
+	
 };

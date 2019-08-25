@@ -28,22 +28,17 @@ private:
 
 	UPROPERTY(EditAnywhere)
 	float CrossHairXLocation = 0.5;
-
 	UPROPERTY(EditAnywhere)
 	float CrossHairYLocation = 0.3333;
-
 	UPROPERTY(EditDefaultsOnly)
 	float LineTraceRange = 1000000;
 
-
-	void AimTowardsCrosshair();
-
-	bool GetSightRayLocation(FVector&);
-
-	bool ConvertScreenPosToWorldDirection(FVector2D, FVector&) const;
-
-	bool GetLookVectorHitLocation(FVector&,FVector) const ;
-
 	UTankAimingComponent* TankAim;
 
+	void AimTowardsCrosshair();
+	bool GetSightRayLocation(FVector&);
+	bool ConvertScreenPosToWorldDirection(FVector2D, FVector&) const;
+	bool GetLookVectorHitLocation(FVector&,FVector) const ;
+	virtual void SetPawn(APawn* InPawn) override;
+	void OnTankDie();
 };
