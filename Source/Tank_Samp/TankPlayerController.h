@@ -40,5 +40,6 @@ private:
 	bool ConvertScreenPosToWorldDirection(FVector2D, FVector&) const;
 	bool GetLookVectorHitLocation(FVector&,FVector) const ;
 	virtual void SetPawn(APawn* InPawn) override;
+	UFUNCTION()
 	void OnTankDie();
 };

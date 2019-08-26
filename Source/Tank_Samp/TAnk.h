@@ -27,7 +27,7 @@ private:
 	UPROPERTY(EditAnywhere,Category = "Health stuff")
 	int32 Health = 100;
 	UPROPERTY(VisibleAnywhere, Category = "Health stuff")
-	int32 CurrentHealth = Health;
+	int32 CurrentHealth;
 	virtual void BeginPlay() override;
 	ATAnk();
 	

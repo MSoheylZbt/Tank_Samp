@@ -94,5 +94,5 @@ void ATankPlayerController::SetPawn(APawn* InPawn)
 
 void ATankPlayerController::OnTankDie()
 {
-	UE_LOG(LogTemp,Error,TEXT(" %s is Dead !"),*GetName())
+	StartSpectatingOnly();
 }

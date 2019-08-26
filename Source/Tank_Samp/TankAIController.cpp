@@ -4,6 +4,7 @@
 #include "TankAimingComponent.h"
 #include "Navigation/PathFollowingComponent.h"
 #include "TAnk.h"
+#include "GameFramework/Pawn.h"
 #include "GameFramework/Actor.h"
 
 
@@ -43,6 +44,7 @@ void ATankAIController::SetPawn(APawn* InPawn)
 
 void ATankAIController::OnTankDeath()
 {
-	UE_LOG(LogTemp,Warning,TEXT("%s is Dead !"),*GetName())
+	if (!ensure(GetPawn())) { return; }
+	GetPawn()->DetachFromControllerPendingDestroy();
 }
 
