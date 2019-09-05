@@ -2,51 +2,47 @@
 
 
 #include "TankTrackComponent.h"
+#include "SpringWheel.h"
+#include "SpawnComponent.h"
 
 UTankTrackComponent::UTankTrackComponent()
 {
 	PrimaryComponentTick.bCanEverTick = false;
 }
-void UTankTrackComponent::BeginPlay()
-{
-	OnComponentHit.AddDynamic(this, &UTankTrackComponent::OnHit);
-}
-
-void UTankTrackComponent::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse,
-	const FHitResult& Hit)
-{
-	//UE_LOG(LogTemp,Warning,TEXT("OnHit"))
-	TrackMove();
-	AddSidewayForce();
-	CurrentThrottle = 0;
-}
-
-
 
 void UTankTrackComponent::ThrottleSet(float Throttle)
 {
-	
-	CurrentThrottle = FMath::Clamp<float>(CurrentThrottle+Throttle,-2,2);
+	float CurrentThrottle = FMath::Clamp<float>(Throttle,-2,2);
+	TrackMove(CurrentThrottle);
 }
 
 
-void UTankTrackComponent::AddSidewayForce()
+void UTankTrackComponent::TrackMove(float CurrentThrottle)
 {
-	auto DeltaTime = GetWorld()->GetDeltaSeconds();
-	auto SlippageSpeed = FVector::DotProduct(GetRightVector(), GetComponentVelocity());
-	auto Accelration = -SlippageSpeed / DeltaTime * GetRightVector();
-	auto RootTank = Cast<UStaticMeshComponent>(GetOwner()->GetRootComponent());
-	auto CorrectionForce = RootTank->GetMass() * Accelration;
-	AddForce(CorrectionForce / 2);
+
+	auto ForceApplied = CurrentThrottle * MaxForce;
+	auto Wheels = GetWheels();
+	auto ForcePerWheel = ForceApplied / Wheels.Num();
+	for (ASpringWheel* Wheel : Wheels)
+	{
+		Wheel->AddDrivingForce(ForcePerWheel);
+	}
 }
 
-void UTankTrackComponent::TrackMove()
+TArray<ASpringWheel*> UTankTrackComponent::GetWheels() const
 {
+	TArray <ASpringWheel*> ResultArray;
+	TArray <USceneComponent*> Children;
+	GetChildrenComponents(true, Children);
+	for (USceneComponent* Child : Children)
+	{
+		auto SpawnPointChild = Cast<USpawnComponent>(Child);
+		if (!SpawnPointChild) { continue; }
 
-	auto ForceVector = GetForwardVector() * CurrentThrottle * MaxForce;
-	auto ForceLocation = GetComponentLocation();
-	auto TankRoot = Cast<UPrimitiveComponent>(GetOwner()->GetRootComponent());
-	if (!ensure(TankRoot)) { return; }
-	TankRoot->AddForceAtLocation(ForceVector, ForceLocation);
-
+		AActor* SpawnChild = SpawnPointChild->GetSpawnActor();
+		auto SpringWheel = Cast<ASpringWheel>(SpawnChild);
+		if (!SpringWheel) { continue; }
+		ResultArray.Add(SpringWheel);
+	}
+	return ResultArray;
 }

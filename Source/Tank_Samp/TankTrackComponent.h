@@ -6,9 +6,9 @@
 #include "Components/StaticMeshComponent.h"
 #include "TankTrackComponent.generated.h"
 
-/**
- * 
- */
+class ASpringWheel;
+
+
 UCLASS(meta = (BlueprintSpawnableComponent))
 class TANK_SAMP_API UTankTrackComponent : public UStaticMeshComponent
 {
@@ -20,12 +20,8 @@ protected:
 	UPROPERTY(EditDefaultsOnly)
 	float MaxForce = 60000000.0;
 private:
-	void AddSidewayForce();
 	UTankTrackComponent();
-	virtual void BeginPlay() override;
-	UFUNCTION()
-	void OnHit(UPrimitiveComponent* HitComponent ,AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, 
-		const FHitResult& Hit);
-	void TrackMove();
-	float CurrentThrottle = 0;
+
+	void TrackMove(float CurrentThrottle);
+	TArray<ASpringWheel*> GetWheels() const;
 };
